@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Registro de Usuario</title>
+  <style>
+    :root {
+      --color-bg: #f0f0f0;
+      --color-form: #ffffff;
+      --color-text: #333;
+      --color-accent: #007bff;
+      --color-error: #dc3545;
+    }
+    body.dark {
+      --color-bg: #121212;
+      --color-form: #1e1e1e;
+      --color-text: #f0f0f0;
+      --color-accent: #66b2ff;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: var(--color-bg);
+      color: var(--color-text);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      transition: background-color 0.4s, color 0.4s;
+    }
+    .form-container {
+      background-color: var(--color-form);
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 400px;
+      transition: background-color 0.4s;
+      position: relative;
+    }
+    .form-container h2 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+    .form-group {
+      position: relative;
+      margin-bottom: 1.5rem;
+    }
+    .form-group input {
+      width: 100%;
+      padding: 0.8rem 0.5rem;
+      border: none;
+      border-bottom: 2px solid var(--color-accent);
+      background: transparent;
+      color: var(--color-text);
+      font-size: 1rem;
+      transition: all 0.3s;
+    }
+    .form-group label {
+      position: absolute;
+      top: 10px;
+      left: 5px;
+      font-size: 1rem;
+      color: #aaa;
+      pointer-events: none;
+      transition: all 0.3s;
+    }
+    .form-group input:focus + label,
+    .form-group input:not(:placeholder-shown) + label {
+      top: -15px;
+      left: 2px;
+      font-size: 0.8rem;
+      color: var(--color-accent);
+    }
+    .form-group input:focus {
+      outline: none;
+      border-bottom-color: var(--color-accent);
+    }
+    button {
+      width: 100%;
+      padding: 0.9rem;
+      background-color: var(--color-accent);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .mensaje {
+      text-align: center;
+      margin-bottom: 1rem;
+      color: var(--color-error);
+      font-weight: bold;
+    }
+    .g-recaptcha {
+      margin: 1rem 0;
+      transform: scale(1.02);
+    }
+    .dark-mode-toggle {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: transparent;
+      border: 2px solid var(--color-accent);
+      color: var(--color-accent);
+      padding: 0.4rem 0.8rem;
+      font-size: 0.8rem;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .dark-mode-toggle:hover {
+      background-color: var(--color-accent);
+      color: white;
+    }
+    @media (max-width: 500px) {
+      .form-container {
+        padding: 1.5rem;
+      }
+    }
+  </style>
+  <script>
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark');
+    }
+  </script>
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+</head>
+<body>
+  <div class="form-container">
+    <button class="dark-mode-toggle" onclick="toggleDarkMode()">🌙 Modo oscuro</button>
+    <h2>Formulario de Registro</h2>
+
+    {# Evita mostrar el mensaje de reCAPTCHA inválido si el usuario aún no ha enviado nada #}
+    {% if mensaje and mensaje != "" and mensaje != "reCAPTCHA inválido" %}
+      <div class="mensaje">{{ mensaje }}</div>
+    {% endif %}
+
+    <form method="post" action="/registrar">
+      <div class="form-group">
+        <input type="text" name="nombre" required placeholder=" " />
+        <label>Nombre</label>
+      </div>
+      <div class="form-group">
+        <input type="email" name="correo" required placeholder=" " />
+        <label>Correo electrónico</label>
+      </div>
+      <div class="form-group">
+        <input type="password" name="password" required placeholder=" " />
+        <label>Contraseña</label>
+      </div>
+      <div class="g-recaptcha" data-sitekey="6Le7QJorAAAAAAoetX5mE5VckhrcmfDKV2jYu5bn"></div>
+      <button type="submit">Registrarse</button>
+    </form>
+  </div>
+</body>
+</html>
